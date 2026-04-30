@@ -1,0 +1,366 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+body {
+    display: flex;
+    height: 100vh;
+    background: #f4f7f9;
+    color: #333;
+    overflow: hidden; 
+}
+
+/* Sidebar */
+.sidebar {
+    width: 260px;
+    background: #fff;
+    border-right: 1px solid #e0e6ed;
+    padding: 25px;
+    display: flex;
+    flex-direction: column;
+}
+
+.logo {
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 30px;
+}
+
+.logo span {
+    color: #185eff;
+}
+
+.add-event-btn {
+    background: #185eff;
+    color: #fff;
+    border: none;
+    padding: 12px;
+    border-radius: 10px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s;
+    margin-bottom: 20px;
+}
+
+.add-event-btn:hover {
+    background: #004ae6;
+}
+
+.category-title {
+    font-size: 12px;
+    font-weight: 700;
+    color: #999;
+    text-transform: uppercase;
+    margin: 20px 0 10px;
+}
+
+.filter-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+}
+
+.dot.blue { background: #185eff; }
+.dot.green { background: #10b981; }
+.dot.red { background: #ef4444; }
+
+/* Main Content */
+.main-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+.main-header {
+    height: 70px;
+    background: #fff;
+    padding: 0 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #e0e6ed;
+}
+
+/* Profile */
+.user-profile {
+    position: relative;
+}
+
+.avatar {
+    font-size: 32px;
+    color: #185eff;
+    cursor: pointer;
+}
+
+.profile-dropdown {
+    position: absolute;
+    top: 50px;
+    right: 0;
+    background: #fff;
+    border: 1px solid #eee;
+    border-radius: 10px;
+    width: 160px;
+    display: none;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    z-index: 100;
+}
+
+.profile-dropdown a {
+    display: block;
+    padding: 10px 15px;
+    text-decoration: none;
+    color: #333;
+    font-size: 14px;
+}
+
+.profile-dropdown a:hover {
+    background: #f8f9fa;
+}
+
+.profile-dropdown a.logout {
+    color: #ef4444;
+    border-top: 1px solid #eee;
+}
+
+/* ТУТ ВИПРАВЛЕНО: СІТКА */
+.calendar-grid {
+    flex: 1;
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    
+    grid-template-rows: 50px repeat(auto-fit, minmax(0, 1fr)); 
+    background: #e0e6ed;
+    gap: 1px;
+    height: 100%;
+    align-content: stretch;
+}
+
+.day-name {
+    background: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 14px;
+    color: #718096;
+    height: 50px; 
+    margin: 0 !important;
+    padding: 0 !important;
+    border-bottom: 1px solid #e0e6ed;
+}
+
+.day {
+    background: #fff;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    overflow: hidden;
+    height: 100%; 
+}
+
+/* Стрілочки в хедері */
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 15px; 
+    user-select: none;
+}
+.month-wrapper {
+    min-width: 150px; 
+    text-align: left;
+}
+
+.month-display {
+    font-size: 24px;
+    font-weight: 700;
+    color: #1a202c;
+}
+.year-selector {
+    border: none;
+    background: transparent;
+    font-size: 24px;
+    font-weight: 700;
+    color: #1a202c;
+    cursor: pointer;
+    outline: none;
+    padding: 0 5px;
+    font-family: inherit;
+    appearance: none; 
+}
+
+.year-selector:hover {
+    color: #185eff;
+}
+.header-left, 
+.nav-arrows, 
+.month-display,
+.mini-header {
+    user-select: none; 
+    -webkit-user-select: none; 
+    -moz-user-select: none; 
+}
+.nav-arrows {
+    display: flex;
+    gap: 8px;
+}
+
+.nav-arrows button {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: #f7fafc;
+    border: 1px solid #edf2f7;
+    transition: 0.2s;
+}
+
+.nav-arrows button:hover {
+    background: #edf2f7;
+    color: #185eff;
+}
+
+
+.mini-calendar {
+    background: #fff;
+    border: 1px solid #edf2f7;
+    border-radius: 12px;
+    padding: 12px;
+    margin-bottom: 20px;
+}
+
+.mini-header {
+    display: flex;
+    justify-content: space-between;
+    font-size: 13px;
+    font-weight: 700;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.mini-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 2px;
+    font-size: 11px;
+    text-align: center;
+}
+
+.m-day {
+    padding: 5px 0;
+    cursor: pointer;
+    border-radius: 6px;
+}
+
+.m-day:hover {
+    background: #f0f7ff;
+}
+
+.active-mini {
+    background: #185eff;
+    color: #fff;
+    font-weight: 700;
+}
+
+/* ЯЧЕЙКИ ДНІВ */
+.day {
+    background: #fff;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    min-height: 100px; 
+}
+
+.day.empty {
+    background: #fdfdfd;
+}
+
+.day-number {
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.day.active {
+    background: #f0f7ff;
+}
+
+.day.active .day-number {
+    color: #185eff;
+    font-weight: 800;
+}
+
+/* Events */
+.ev {
+    padding: 5px 8px;
+    border-radius: 6px;
+    font-size: 11px;
+    color: #fff;
+    font-weight: 600;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.ev-blue { background: #185eff; }
+.ev-green { background: #10b981; }
+.ev-red { background: #ef4444; }
+.ev-pink { background: #f43f5e; }
+.ev-purple { background: #a855f7; }
+
+/* Modal */
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.4);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-card {
+    background: #fff;
+    padding: 30px;
+    border-radius: 15px;
+    width: 350px;
+}
+
+.modal-buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.btn-save {
+    background: #185eff;
+    color: #fff;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.btn-cancel {
+    background: #eee;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 8px;
+    cursor: pointer;
+}

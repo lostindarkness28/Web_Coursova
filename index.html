@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="uk">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Calendar</title>
+    <link rel="stylesheet" href="css/calendar-style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+
+<body>
+
+    <aside class="sidebar">
+        <div class="logo">Smart <span>Calendar</span></div>
+        <button class="add-event-btn" id="openModal">
+            <i class="fas fa-plus"></i> Додати подію
+        </button>
+
+        <div class="mini-calendar">
+            <div class="mini-header" id="miniHeader">Квітень 2024</div>
+            <div class="mini-grid" id="miniGrid"></div>
+        </div>
+
+        <nav class="sidebar-nav">
+            <div class="category-title">Категорії</div>
+            <label class="filter-item"><input type="checkbox" checked> <span class="dot blue"></span> Робота</label>
+            <label class="filter-item"><input type="checkbox" checked> <span class="dot green"></span> Особисте</label>
+            <label class="filter-item"><input type="checkbox" checked> <span class="dot red"></span> Важливе</label>
+        </nav>
+    </aside>
+
+    <main class="main-content">
+        <header class="main-header">
+            <div class="header-left">
+                <div class="nav-arrows">
+                    <button id="prevMonth"><i class="fas fa-chevron-left"></i></button>
+                    <button id="nextMonth"><i class="fas fa-chevron-right"></i></button>
+                </div>
+                <div class="month-wrapper">
+                    <span class="month-display">Квітень</span>
+                </div>
+                <select id="yearSelect" class="year-selector"></select>
+            </div>
+            <div class="avatar"><i class="fas fa-user"></i></div>
+        </header>
+
+        <section class="calendar-grid" id="calendarGrid"></section>
+    </main>
+
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal-card">
+            <h2>Нова подія</h2>
+            <div class="modal-buttons">
+                <button class="btn-cancel" id="closeModal">Скасувати</button>
+                <button class="btn-save">Зберегти</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/main.js"></script>
+</body>
+
+</html>

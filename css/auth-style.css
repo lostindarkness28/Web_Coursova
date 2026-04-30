@@ -1,0 +1,135 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+body {
+    background: #f0f2f5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.auth-card {
+    background: #fff;
+    width: 100%;
+    max-width: 440px;
+    padding: 45px;
+    border-radius: 20px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+    text-align: center;
+}
+
+h1 {
+    font-size: 26px;
+    margin-bottom: 35px;
+    color: #333;
+}
+
+h1 span {
+    color: #185eff; 
+}
+
+.google-btn {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    background: #fff;
+    border-radius: 10px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    font-size: 16px;
+    font-weight: 500;
+    margin-bottom: 25px;
+}
+
+.divider {
+    display: flex;
+    align-items: center;
+    margin-bottom: 25px;
+    color: #999;
+}
+
+.divider::before, .divider::after {
+    content: "";
+    flex: 1;
+    border-bottom: 1px solid #eee;
+}
+
+.divider span {
+    padding: 0 10px;
+    font-size: 14px;
+}
+
+.input-group {
+    text-align: left;
+    margin-bottom: 15px;
+}
+
+label {
+    display: block;
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: #333;
+}
+
+input {
+    width: 100%;
+    padding: 14px;
+    border: 1px solid #ced4da;
+    border-radius: 10px;
+    font-size: 16px;
+    outline: none;
+}
+
+.forgot-link {
+    display: block;
+    text-align: right;
+    font-size: 13px;
+    color: #185eff;
+    text-decoration: none;
+    margin-top: 8px;
+    margin-bottom: 25px;
+}
+
+.login-btn {
+    width: 100%;
+    padding: 15px;
+    background: #185eff;
+    color: #fff;
+    border: none;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.login-btn:hover {
+    background: #004ae6;
+}
+
+.footer-text {
+    margin-top: 25px;
+    font-size: 14px;
+    color: #666;
+}
+
+.footer-text a {
+    color: #185eff;
+    text-decoration: none;
+    font-weight: 600;
+}
+.error-msg {
+    color: red;
+    font-size: 12px;
+    margin-top: 5px;
+    height: 15px; 
+}
