@@ -2,31 +2,32 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Segoe UI', sans-serif;
+    font-family: 'Segoe UI', Roboto, sans-serif;
 }
 
 body {
     display: flex;
     height: 100vh;
-    background: #f4f7f9;
-    color: #333;
-    overflow: hidden; 
+    background: #f8fafc;
+    color: #1e293b;
+    overflow: hidden;
 }
 
 /* Sidebar */
 .sidebar {
-    width: 260px;
+    width: 280px;
     background: #fff;
-    border-right: 1px solid #e0e6ed;
+    border-right: 1px solid #e2e8f0;
     padding: 25px;
     display: flex;
     flex-direction: column;
 }
 
 .logo {
-    font-size: 20px;
-    font-weight: 700;
+    font-size: 22px;
+    font-weight: 800;
     margin-bottom: 30px;
+    letter-spacing: -0.5px;
 }
 
 .logo span {
@@ -37,263 +38,231 @@ body {
     background: #185eff;
     color: #fff;
     border: none;
-    padding: 12px;
-    border-radius: 10px;
+    padding: 14px;
+    border-radius: 12px;
     font-weight: 600;
     cursor: pointer;
+    margin-bottom: 25px;
     transition: 0.3s;
-    margin-bottom: 20px;
+    box-shadow: 0 4px 12px rgba(24, 94, 255, 0.2);
 }
 
 .add-event-btn:hover {
-    background: #004ae6;
+    background: #1552db;
+    transform: translateY(-1px);
 }
 
+/* Category Filters */
 .category-title {
     font-size: 12px;
     font-weight: 700;
-    color: #999;
+    color: #94a3b8;
     text-transform: uppercase;
-    margin: 20px 0 10px;
+    margin: 20px 0 15px;
+    letter-spacing: 1px;
 }
 
 .filter-item {
     display: flex;
     align-items: center;
-    gap: 10px;
-    margin-bottom: 10px;
-    font-size: 14px;
+    gap: 12px;
+    margin-bottom: 12px;
+    font-size: 15px;
+    font-weight: 500;
     cursor: pointer;
 }
 
 .dot {
-    width: 10px;
-    height: 10px;
+    width: 8px;
+    height: 8px;
     border-radius: 50%;
 }
 
-.dot.blue { background: #185eff; }
-.dot.green { background: #10b981; }
-.dot.red { background: #ef4444; }
+.dot.blue {
+    background: #185eff;
+}
 
-/* Main Content */
+.dot.green {
+    background: #10b981;
+}
+
+.dot.red {
+    background: #ef4444;
+}
+
+.filter-item input[type="checkbox"] {
+    appearance: none;
+    width: 18px;
+    height: 18px;
+    border: 2px solid #cbd5e0;
+    border-radius: 5px;
+    cursor: pointer;
+    position: relative;
+}
+
+.filter-item input[type="checkbox"]:checked {
+    background: #185eff;
+    border-color: #185eff;
+}
+
+.filter-item input[type="checkbox"]:checked::after {
+    content: '✓';
+    position: absolute;
+    color: #fff;
+    font-size: 12px;
+    left: 3px;
+    top: -1px;
+}
+
+/* Main Header */
 .main-content {
     flex: 1;
     display: flex;
     flex-direction: column;
-    height: 100vh;
+    overflow: hidden;
 }
 
 .main-header {
-    height: 70px;
+    height: 80px;
     background: #fff;
-    padding: 0 30px;
+    padding: 0 40px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-bottom: 1px solid #e0e6ed;
+    border-bottom: 1px solid #e2e8f0;
 }
 
-/* Profile */
-.user-profile {
-    position: relative;
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 25px;
 }
 
-.avatar {
-    font-size: 32px;
-    color: #185eff;
+.nav-arrows {
+    display: flex;
+    gap: 10px;
+}
+
+.nav-arrows button {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    border: 1px solid #e2e8f0;
+    background: #fff;
     cursor: pointer;
+    transition: 0.2s;
+    color: #64748b;
 }
 
-.profile-dropdown {
+.nav-arrows button:hover {
+    background: #f1f5f9;
+    color: #185eff;
+    border-color: #185eff;
+}
+
+.month-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.month-display,
+.year-display {
+    font-size: 26px;
+    font-weight: 800;
+    cursor: pointer;
+    padding: 4px 10px;
+    border-radius: 8px;
+}
+
+.year-display {
+    color: #185eff;
+}
+
+.month-display:hover,
+.year-display:hover {
+    background: #f1f5f9;
+}
+
+/* Pickers */
+.picker-modal {
     position: absolute;
     top: 50px;
-    right: 0;
     background: #fff;
-    border: 1px solid #eee;
-    border-radius: 10px;
-    width: 160px;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    border-radius: 15px;
     display: none;
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
     z-index: 100;
+    padding: 15px;
+    width: 260px;
+    max-height: 300px;
+    overflow-y: auto;
 }
 
-.profile-dropdown a {
-    display: block;
-    padding: 10px 15px;
-    text-decoration: none;
-    color: #333;
+#monthPicker {
+    left: 0;
+}
+
+#yearPicker {
+    left: 120px;
+}
+
+.picker-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+}
+
+.picker-item {
+    padding: 10px;
+    text-align: center;
     font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    border-radius: 8px;
 }
 
-.profile-dropdown a:hover {
-    background: #f8f9fa;
+.picker-item:hover,
+.picker-item.active {
+    background: #185eff;
+    color: #fff;
 }
 
-.profile-dropdown a.logout {
-    color: #ef4444;
-    border-top: 1px solid #eee;
-}
-
-/* ТУТ ВИПРАВЛЕНО: СІТКА */
+/* Calendar Grid */
 .calendar-grid {
     flex: 1;
     display: grid;
     grid-template-columns: repeat(7, 1fr);
-    
-    grid-template-rows: 50px repeat(auto-fit, minmax(0, 1fr)); 
-    background: #e0e6ed;
+    grid-template-rows: 50px repeat(auto-fit, minmax(0, 1fr));
+    background: #e2e8f0;
     gap: 1px;
-    height: 100%;
-    align-content: stretch;
 }
 
 .day-name {
-    background: #fff;
+    background: #f8fafc;
     display: flex;
     align-items: center;
     justify-content: center;
     font-weight: 700;
-    font-size: 14px;
-    color: #718096;
-    height: 50px; 
-    margin: 0 !important;
-    padding: 0 !important;
-    border-bottom: 1px solid #e0e6ed;
+    color: #94a3b8;
+    font-size: 12px;
+    text-transform: uppercase;
 }
 
 .day {
     background: #fff;
-    padding: 10px;
+    padding: 12px;
     display: flex;
     flex-direction: column;
-    gap: 5px;
-    overflow: hidden;
-    height: 100%; 
-}
-
-/* Стрілочки в хедері */
-.header-left {
-    display: flex;
-    align-items: center;
-    gap: 15px; 
-    user-select: none;
-}
-.month-wrapper {
-    min-width: 150px; 
-    text-align: left;
-}
-
-.month-display {
-    font-size: 24px;
-    font-weight: 700;
-    color: #1a202c;
-}
-.year-selector {
-    border: none;
-    background: transparent;
-    font-size: 24px;
-    font-weight: 700;
-    color: #1a202c;
-    cursor: pointer;
-    outline: none;
-    padding: 0 5px;
-    font-family: inherit;
-    appearance: none; 
-}
-
-.year-selector:hover {
-    color: #185eff;
-}
-.header-left, 
-.nav-arrows, 
-.month-display,
-.mini-header {
-    user-select: none; 
-    -webkit-user-select: none; 
-    -moz-user-select: none; 
-}
-.nav-arrows {
-    display: flex;
-    gap: 8px;
-}
-
-.nav-arrows button {
-    width: 32px;
-    height: 32px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-    background: #f7fafc;
-    border: 1px solid #edf2f7;
+    gap: 4px;
+    overflow-y: auto;
     transition: 0.2s;
 }
 
-.nav-arrows button:hover {
-    background: #edf2f7;
-    color: #185eff;
-}
-
-
-.mini-calendar {
-    background: #fff;
-    border: 1px solid #edf2f7;
-    border-radius: 12px;
-    padding: 12px;
-    margin-bottom: 20px;
-}
-
-.mini-header {
-    display: flex;
-    justify-content: space-between;
-    font-size: 13px;
-    font-weight: 700;
-    margin-bottom: 10px;
-    color: #333;
-}
-
-.mini-grid {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    gap: 2px;
-    font-size: 11px;
-    text-align: center;
-}
-
-.m-day {
-    padding: 5px 0;
-    cursor: pointer;
-    border-radius: 6px;
-}
-
-.m-day:hover {
-    background: #f0f7ff;
-}
-
-.active-mini {
-    background: #185eff;
-    color: #fff;
-    font-weight: 700;
-}
-
-/* ЯЧЕЙКИ ДНІВ */
-.day {
-    background: #fff;
-    padding: 10px;
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-    min-height: 100px; 
-}
-
-.day.empty {
+.day:hover {
     background: #fdfdfd;
-}
-
-.day-number {
-    font-size: 14px;
-    font-weight: 500;
 }
 
 .day.active {
@@ -305,29 +274,131 @@ body {
     font-weight: 800;
 }
 
-/* Events */
-.ev {
-    padding: 5px 8px;
-    border-radius: 6px;
-    font-size: 11px;
-    color: #fff;
+.day-number {
+    font-size: 15px;
     font-weight: 600;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    margin-bottom: 5px;
 }
 
-.ev-blue { background: #185eff; }
-.ev-green { background: #10b981; }
-.ev-red { background: #ef4444; }
-.ev-pink { background: #f43f5e; }
-.ev-purple { background: #a855f7; }
+/* Event Tags */
+.ev {
+    padding: 4px 8px;
+    border-radius: 6px;
+    font-size: 11px;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 2px;
+    cursor: pointer;
+    animation: fadeIn 0.3s ease;
+}
 
-/* Modal */
+.ev.work {
+    background: #185eff;
+}
+
+.ev.personal {
+    background: #10b981;
+}
+
+.ev.important {
+    background: #ef4444;
+}
+
+/* User Profile */
+.avatar-container {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+    padding: 6px;
+    border-radius: 12px;
+}
+
+.avatar-container:hover {
+    background: #f1f5f9;
+}
+
+.user-info-text {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.user-name {
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.user-status {
+    font-size: 11px;
+    color: #94a3b8;
+}
+
+.avatar-img {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #f1f5f9;
+}
+
+/* Dropdown */
+.profile-dropdown {
+    position: absolute;
+    top: 70px;
+    right: 40px;
+    width: 240px;
+    background: #fff;
+    border: 1px solid #e2e8f0;
+    border-radius: 16px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    display: none;
+    z-index: 200;
+    padding: 10px;
+}
+
+.dropdown-header {
+    padding: 10px;
+}
+
+.dropdown-user-name {
+    font-weight: 700;
+    font-size: 15px;
+}
+
+.dropdown-user-email {
+    font-size: 12px;
+    color: #64748b;
+}
+
+.profile-dropdown hr {
+    margin: 8px 0;
+    border: 0;
+    border-top: 1px solid #f1f5f9;
+}
+
+.profile-dropdown a {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px;
+    text-decoration: none;
+    color: #475569;
+    font-size: 14px;
+    border-radius: 10px;
+}
+
+.profile-dropdown a:hover {
+    background: #f1f5f9;
+    color: #185eff;
+}
+
+/* Modals */
 .modal-overlay {
     position: fixed;
     inset: 0;
-    background: rgba(0, 0, 0, 0.4);
+    background: rgba(15, 23, 42, 0.5);
+    backdrop-filter: blur(4px);
     display: none;
     justify-content: center;
     align-items: center;
@@ -337,30 +408,158 @@ body {
 .modal-card {
     background: #fff;
     padding: 30px;
-    border-radius: 15px;
-    width: 350px;
+    border-radius: 20px;
+    width: 400px;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+}
+
+.modal-card h2 {
+    margin-bottom: 20px;
+    font-size: 20px;
+    font-weight: 800;
+}
+
+.input-group {
+    margin-bottom: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.input-group label {
+    font-size: 13px;
+    font-weight: 700;
+    color: #64748b;
+}
+
+.input-group input,
+.input-group select {
+    padding: 12px;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    font-size: 14px;
+    outline: none;
+    transition: 0.2s;
+}
+
+.input-group input:focus {
+    border-color: #185eff;
+    ring: 2px solid #185eff;
 }
 
 .modal-buttons {
     display: flex;
     justify-content: flex-end;
     gap: 10px;
-    margin-top: 20px;
+    margin-top: 25px;
 }
 
 .btn-save {
     background: #185eff;
     color: #fff;
     border: none;
-    padding: 10px 15px;
-    border-radius: 8px;
+    padding: 12px 20px;
+    border-radius: 10px;
+    font-weight: 600;
     cursor: pointer;
 }
 
 .btn-cancel {
-    background: #eee;
+    background: #f1f5f9;
     border: none;
-    padding: 10px 15px;
-    border-radius: 8px;
+    padding: 12px 20px;
+    border-radius: 10px;
+    font-weight: 600;
     cursor: pointer;
+}
+
+/* Mini Calendar */
+.mini-calendar {
+    background: #f8fafc;
+    border-radius: 15px;
+    padding: 15px;
+    margin-bottom: 20px;
+    border: 1px solid #e2e8f0;
+}
+
+.mini-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 4px;
+    font-size: 11px;
+    text-align: center;
+    margin-top: 8px;
+}
+
+.m-day {
+    padding: 4px 0;
+    border-radius: 6px;
+}
+
+.active-mini {
+    background: #185eff;
+    color: #fff;
+    font-weight: 700;
+}
+
+.avatar-edit {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.avatar-img-large {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 10px;
+    border: 4px solid #f1f5f9;
+}
+
+.btn-change-photo {
+    background: none;
+    border: none;
+    color: #185eff;
+    font-weight: 700;
+    cursor: pointer;
+    font-size: 13px;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(5px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+.profile-header-centered {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Центрує по горизонталі */
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+.avatar-img-large {
+    width: 110px;
+    height: 110px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 5px solid #f1f5f9;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    margin-bottom: 15px; /* Відступ від картинки до заголовку */
+}
+
+#profileModalTitle {
+    margin-bottom: 0; /* Прибираємо стандартний відступ, бо він уже є у картинки */
+    font-size: 22px;
+}
+
+/* Прибираємо старий стиль avatar-edit, якщо він був */
+.avatar-edit {
+    display: none;
 }
