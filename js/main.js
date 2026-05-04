@@ -3,7 +3,6 @@ let curDate = new Date();
 let curMonth = curDate.getMonth();
 let curYear = curDate.getFullYear();
 
-// Сховище подій та профілю
 let events = JSON.parse(localStorage.getItem('calendar_events')) || [];
 let userData = JSON.parse(localStorage.getItem('calendar_user')) || {
     name: "Користувач",
@@ -20,7 +19,6 @@ const yearBtn = document.getElementById('yearBtn');
 const monthPicker = document.getElementById('monthPicker');
 const yearPicker = document.getElementById('yearPicker');
 
-// Ініціалізація вибору
 function initPickers() {
     const mGrid = document.getElementById('monthPickerGrid');
     const yGrid = document.getElementById('yearPickerGrid');
@@ -44,7 +42,6 @@ function initPickers() {
     }
 }
 
-// Рендер головної сітки
 function renderCalendar(month, year) {
     const grid = document.getElementById('calendarGrid');
     grid.innerHTML = '';
@@ -54,7 +51,6 @@ function renderCalendar(month, year) {
     let shift = (firstDay === 0) ? 6 : firstDay - 1;
     let daysInMonth = new Date(year, month + 1, 0).getDate();
 
-    // Фільтри категорій
     const activeFilters = Array.from(document.querySelectorAll('.filter-item input:checked')).map(i => i.dataset.category);
 
     for (let x = 0; x < shift; x++) grid.innerHTML += `<div class="day empty"></div>`;
@@ -62,7 +58,6 @@ function renderCalendar(month, year) {
         let dateString = `${year}-${String(month + 1).padStart(2, '0')}-${String(i).padStart(2, '0')}`;
         let isToday = (i === curDate.getDate() && month === curDate.getMonth() && year === curDate.getFullYear());
 
-        // Відображаємо події для цього дня з урахуванням пошуку
         let dayEvents = events.filter(e =>
             e.date === dateString &&
             activeFilters.includes(e.category) &&
@@ -78,7 +73,6 @@ function renderCalendar(month, year) {
     }
 }
 
-// Міні календар
 function renderMini(month, year) {
     const mini = document.getElementById('miniGrid');
     document.getElementById('miniHeader').innerText = `${monthNames[month]} ${year}`;
@@ -96,16 +90,14 @@ function renderMini(month, year) {
     }
 }
 
-// Оновлення всього контенту
 function updateAll() {
     monthBtn.innerText = monthNames[curMonth];
     yearBtn.innerText = curYear;
     renderCalendar(curMonth, curYear);
     renderMini(curMonth, curYear);
-    initPickers(); // Оновлюємо активні класи в пікерах
+    initPickers();
 }
 
-// Робота з подіями
 document.getElementById('saveEventBtn').onclick = () => {
     const title = document.getElementById('eventTitle').value;
     const date = document.getElementById('eventDate').value;
@@ -113,7 +105,6 @@ document.getElementById('saveEventBtn').onclick = () => {
     const reminderTime = document.getElementById('eventReminderTime').value;
 
     if (title && date) {
-        // Звичайна подія з нагадуванням
         events.push({ title, date, category, reminderTime: reminderTime || null });
 
         localStorage.setItem('calendar_events', JSON.stringify(events));
@@ -122,7 +113,6 @@ document.getElementById('saveEventBtn').onclick = () => {
         document.getElementById('eventReminderTime').value = '';
         updateAll();
 
-        // Встановлюємо нагадування, якщо час вказано
         if (reminderTime) {
             setReminder(title, date, reminderTime);
         }
@@ -131,7 +121,6 @@ document.getElementById('saveEventBtn').onclick = () => {
     }
 };
 
-// Функція для встановлення нагадування
 function setReminder(title, date, time) {
     const eventDateTime = new Date(`${date}T${time}`);
     const now = new Date();
@@ -144,9 +133,7 @@ function setReminder(title, date, time) {
     }
 }
 
-// Функція для показу сповіщення
 function showNotification(title, eventTime) {
-    // Додаємо сповіщення в список
     addNotification(title, new Date().toISOString(), eventTime);
 
     if (Notification.permission === 'granted') {
@@ -166,7 +153,6 @@ function showNotification(title, eventTime) {
     }
 }
 
-// Функція для пошуку подій
 function searchEvents() {
     const query = document.getElementById('searchInput').value.toLowerCase();
     searchQuery = query;
@@ -182,7 +168,6 @@ function searchEvents() {
     renderCalendar(curMonth, curYear);
 }
 
-// Перемикач теми
 document.getElementById('themeToggle').onclick = function() {
     isDarkTheme = !isDarkTheme;
     document.body.classList.toggle('dark-theme', isDarkTheme);
@@ -195,7 +180,6 @@ function updateThemeIcon() {
     themeBtn.innerHTML = isDarkTheme ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
 }
 
-// Оновлена функція рендерингу календаря з урахуванням пошуку
 function renderCalendar(month, year) {
     const grid = document.getElementById('calendarGrid');
     grid.innerHTML = '';
@@ -205,7 +189,6 @@ function renderCalendar(month, year) {
     let shift = (firstDay === 0) ? 6 : firstDay - 1;
     let daysInMonth = new Date(year, month + 1, 0).getDate();
 
-    // Фільтри категорій
     const activeFilters = Array.from(document.querySelectorAll('.filter-item input:checked')).map(i => i.dataset.category);
 
     for (let x = 0; x < shift; x++) grid.innerHTML += `<div class="day empty"></div>`;
@@ -213,7 +196,6 @@ function renderCalendar(month, year) {
         let dateString = `${year}-${String(month + 1).padStart(2, '0')}-${String(i).padStart(2, '0')}`;
         let isToday = (i === curDate.getDate() && month === curDate.getMonth() && year === curDate.getFullYear());
 
-        // Відображаємо події для цього дня з урахуванням пошуку
         let dayEvents = events.filter(e =>
             e.date === dateString &&
             activeFilters.includes(e.category) &&
@@ -229,9 +211,7 @@ function renderCalendar(month, year) {
     }
 }
 
-// Робота з профілем
 function updateProfileUI() {
-    // Відображаємо тільки першу букву імені для аватара
     const firstLetter = userData.name ? userData.name.charAt(0).toUpperCase() : 'К';
     document.getElementById('displayUserName').innerText = firstLetter;
     document.getElementById('dropdownUserName').innerText = userData.name;
@@ -252,7 +232,6 @@ document.getElementById('saveProfileBtn').onclick = () => {
     document.getElementById('profileModal').style.display = 'none';
 };
 
-// Функція виходу (повернення на сторінку логіну)
 document.querySelector('.logout').onclick = function(e) {
     e.preventDefault();
     if (confirm('Ви дійсно хочете вийти?')) {
@@ -261,12 +240,10 @@ document.querySelector('.logout').onclick = function(e) {
     }
 };
 
-// Функція видалення подій (клік на подію)
 document.getElementById('calendarGrid').onclick = function(e) {
     if (e.target.classList.contains('ev')) {
         const eventTitle = e.target.textContent;
         if (confirm(`Видалити подію "${eventTitle}"?`)) {
-            // Знаходимо і видаляємо подію
             events = events.filter(event => event.title !== eventTitle);
             localStorage.setItem('calendar_events', JSON.stringify(events));
             updateAll();
@@ -274,7 +251,6 @@ document.getElementById('calendarGrid').onclick = function(e) {
     }
 };
 
-// Функції для роботи з сповіщеннями
 function updateNotificationBadge() {
     const badge = document.getElementById('notificationBadge');
     unreadCount = notifications.filter(n => !n.read).length;
@@ -307,7 +283,6 @@ function renderNotifications() {
         return;
     }
 
-    // Сортуємо за датою створення (новіші першими)
     notifications.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
 
     notifications.forEach(notification => {
@@ -341,13 +316,11 @@ function renderNotifications() {
     });
 }
 
-// Обробка кнопки сповіщень
 document.getElementById('notificationBtn').onclick = function(e) {
     e.stopPropagation();
     const modal = document.getElementById('notificationModal');
     modal.style.display = modal.style.display === 'block' ? 'none' : 'block';
 
-    // Позначаємо всі сповіщення як прочитані при відкритті
     if (modal.style.display === 'block') {
         notifications.forEach(n => n.read = true);
         localStorage.setItem('calendar_notifications', JSON.stringify(notifications));
@@ -356,7 +329,6 @@ document.getElementById('notificationBtn').onclick = function(e) {
     }
 };
 
-// Очистити всі сповіщення
 document.getElementById('clearNotifications').onclick = function() {
     if (confirm('Очистити всі сповіщення?')) {
         notifications = [];
@@ -366,7 +338,6 @@ document.getElementById('clearNotifications').onclick = function() {
     }
 };
 
-// Обробники відкриття/закриття
 document.getElementById('prevMonth').onclick = () => { curMonth--; if(curMonth < 0){curMonth=11; curYear--;} updateAll(); };
 document.getElementById('nextMonth').onclick = () => { curMonth++; if(curMonth > 11){curMonth=0; curYear++;} updateAll(); };
 
@@ -378,18 +349,15 @@ document.getElementById('openProfileLink').onclick = (e) => { e.preventDefault()
 document.getElementById('closeProfileModal').onclick = () => document.getElementById('profileModal').style.display = 'none';
 
 document.getElementById('openModal').onclick = () => {
-    // Встановлюємо сьогоднішню дату в інпут за замовчуванням
     document.getElementById('eventDate').value = new Date().toISOString().split('T')[0];
     document.getElementById('modalOverlay').style.display = 'flex';
 };
 document.getElementById('closeModal').onclick = () => document.getElementById('modalOverlay').style.display = 'none';
 
-// Фільтрація при кліку на чекбокси
 document.querySelectorAll('.filter-item input').forEach(checkbox => {
     checkbox.onchange = () => renderCalendar(curMonth, curYear);
 });
 
-// Закрити модальне вікно при кліку поза ним
 window.onclick = function(e) {
     const monthPicker = document.getElementById('monthPicker');
     const yearPicker = document.getElementById('yearPicker');
@@ -414,17 +382,14 @@ window.onclick = function(e) {
     }
 };
 
-// Старт
 updateProfileUI();
 updateAll();
 
-// Ініціалізація темної теми
 if (isDarkTheme) {
     document.body.classList.add('dark-theme');
 }
 updateThemeIcon();
 
-// Ініціалізація пошуку
 document.getElementById('searchButton').onclick = searchEvents;
 document.getElementById('searchInput').onkeyup = function(e) {
     if (e.key === 'Enter') {
@@ -432,11 +397,9 @@ document.getElementById('searchInput').onkeyup = function(e) {
     }
 };
 
-// Ініціалізація сповіщень
 updateNotificationBadge();
 renderNotifications();
 
-// Запит дозволу на сповіщення
 if (Notification.permission !== 'granted' && Notification.permission !== 'denied') {
     Notification.requestPermission();
 }
