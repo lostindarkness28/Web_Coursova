@@ -11,6 +11,345 @@ body {
     background: #f8fafc;
     color: #1e293b;
     overflow: hidden;
+    transition: background 0.3s, color 0.3s;
+}
+
+body.dark-theme {
+    background: #0f172a;
+    color: #f1f5f9;
+}
+
+.dark-theme .sidebar {
+    background: #1e293b;
+    border-right: 1px solid #334155;
+}
+
+.dark-theme .main-content {
+    background: #0f172a;
+}
+
+.dark-theme .main-header {
+    background: #1e293b;
+    border-bottom: 1px solid #334155;
+}
+
+.dark-theme .day-name {
+    background: #334155;
+    color: #94a3b8;
+}
+
+.dark-theme .day {
+    background: #1e293b;
+    color: #f1f5f9;
+}
+
+.dark-theme .day:hover {
+    background: #334155;
+}
+
+.dark-theme .day.active {
+    background: #0e2a47;
+}
+
+.dark-theme .calendar-grid {
+    background: #334155;
+}
+
+.dark-theme .profile-dropdown {
+    background: #1e293b;
+    border: 1px solid #334155;
+}
+
+.dark-theme .picker-modal {
+    background: #1e293b;
+    border: 1px solid #334155;
+}
+
+.dark-theme .picker-item:hover,
+.dark-theme .picker-item.active {
+    background: #185eff;
+    color: #fff;
+}
+
+.dark-theme .modal-card {
+    background: #1e293b;
+    color: #f1f5f9;
+}
+
+.dark-theme .input-group input,
+.dark-theme .input-group select {
+    background: #334155;
+    border: 1px solid #475569;
+    color: #f1f5f9;
+}
+
+.dark-theme .input-group input:focus {
+    border-color: #185eff;
+}
+
+.dark-theme .btn-save {
+    background: #185eff;
+}
+
+.dark-theme .btn-cancel {
+    background: #334155;
+    color: #f1f5f9;
+}
+
+.dark-theme .mini-calendar {
+    background: #1e293b;
+    border: 1px solid #334155;
+}
+
+.dark-theme .filter-item {
+    color: #f1f5f9;
+}
+
+.dark-theme .add-event-btn {
+    background: #185eff;
+    box-shadow: 0 4px 12px rgba(24, 94, 255, 0.3);
+}
+
+.dark-theme .add-event-btn:hover {
+    background: #1552db;
+}
+
+.dark-theme .theme-toggle-btn {
+    background: #334155;
+    border: 1px solid #475569;
+    color: #f1f5f9;
+}
+
+.dark-theme .theme-toggle-btn:hover {
+    background: #475569;
+}
+
+.search-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 0 40px;
+    margin-bottom: 10px;
+}
+
+/* Notification Button */
+.notification-btn {
+    position: relative;
+    background: none;
+    border: none;
+    color: #64748b;
+    font-size: 20px;
+    cursor: pointer;
+    padding: 10px;
+    border-radius: 50%;
+    transition: 0.2s;
+    margin-right: 10px;
+}
+
+.notification-btn:hover {
+    background: #f1f5f9;
+    color: #185eff;
+}
+
+.dark-theme .notification-btn:hover {
+    background: #334155;
+    color: #185eff;
+}
+
+.notification-badge {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background: #ef4444;
+    color: white;
+    border-radius: 50%;
+    padding: 2px 6px;
+    font-size: 11px;
+    font-weight: 600;
+    min-width: 18px;
+    text-align: center;
+    line-height: 1;
+}
+
+/* Notification Modal */
+.notification-modal {
+    position: absolute;
+    top: 60px;
+    right: 40px;
+    width: 350px;
+    background: #fff;
+    border: 1px solid #e2e8f0;
+    border-radius: 16px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    display: none;
+    z-index: 200;
+    padding: 15px;
+}
+
+.dark-theme .notification-modal {
+    background: #1e293b;
+    border: 1px solid #334155;
+}
+
+.notification-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.dark-theme .notification-header {
+    border-bottom: 1px solid #334155;
+}
+
+.notification-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: #1e293b;
+}
+
+.dark-theme .notification-title {
+    color: #f1f5f9;
+}
+
+.notification-clear {
+    background: none;
+    border: none;
+    color: #64748b;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+.notification-clear:hover {
+    color: #ef4444;
+}
+
+.notification-list {
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.notification-item {
+    padding: 12px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    transition: 0.2s;
+    position: relative;
+}
+
+.notification-item:hover {
+    background: #f1f5f9;
+}
+
+.dark-theme .notification-item:hover {
+    background: #334155;
+}
+
+.notification-item.unread {
+    background: #f0f7ff;
+}
+
+.dark-theme .notification-item.unread {
+    background: #0e2a47;
+}
+
+.notification-dot {
+    width: 8px;
+    height: 8px;
+    background: #185eff;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.notification-content {
+    display: flex;
+    align-items: flex-start;
+}
+
+.notification-text {
+    flex: 1;
+}
+
+.notification-time {
+    font-size: 11px;
+    color: #94a3b8;
+    margin-top: 4px;
+}
+
+.notification-event-title {
+    font-weight: 600;
+    color: #1e293b;
+    margin-bottom: 4px;
+}
+
+.dark-theme .notification-event-title {
+    color: #f1f5f9;
+}
+
+.notification-event-date {
+    font-size: 12px;
+    color: #64748b;
+    margin-bottom: 4px;
+}
+
+.dark-theme .notification-event-date {
+    color: #94a3b8;
+}
+
+.notification-empty {
+    text-align: center;
+    padding: 20px;
+    color: #94a3b8;
+    font-size: 14px;
+}
+
+.dark-theme .notification-empty {
+    color: #64748b;
+}
+
+#searchInput {
+    flex: 1;
+    padding: 10px 15px;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    font-size: 14px;
+    outline: none;
+    transition: 0.2s;
+}
+
+.dark-theme #searchInput {
+    background: #334155;
+    border: 1px solid #475569;
+    color: #f1f5f9;
+}
+
+#searchButton {
+    padding: 10px 15px;
+    background: #185eff;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+#searchButton:hover {
+    background: #1552db;
+}
+
+.theme-toggle-btn {
+    padding: 10px 15px;
+    background: #f1f5f9;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 /* Sidebar */
@@ -305,6 +644,12 @@ body {
 }
 
 /* User Profile */
+.user-profile {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
 .avatar-container {
     display: flex;
     align-items: center;

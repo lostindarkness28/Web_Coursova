@@ -48,44 +48,213 @@
             <button type="submit" class="login-btn">Увійти</button>
         </form>
 
-        <script>
-            document.getElementById('loginForm').addEventListener('submit', function (e) {
-                e.preventDefault();
-
-                const email = document.getElementById('email');
-                const pass = document.getElementById('password');
-                const emailErr = document.getElementById('emailError');
-                const passErr = document.getElementById('passError');
-
-                
-                emailErr.innerText = '';
-                passErr.innerText = '';
-                email.style.borderColor = '#ced4da';
-                pass.style.borderColor = '#ced4da';
-
-                
-                if (!email.value.includes('@')) {
-                    emailErr.innerText = 'Невірний формат пошти або логін не існує';
-                    email.style.borderColor = 'red';
-                } else if (pass.value.length < 4) {
-                    passErr.innerText = 'Невірний пароль';
-                    pass.style.borderColor = 'red';
-                } else {
-                    // Якщо все ок — перехід
-                    window.location.href = 'index.html';
-                }
-            });
-        </script>
-
-        <p class="footer-text">Немає акаунта? <a href="#">Зареєструватися</a></p>
+        <p class="footer-text">Немає акаунта? <a href="#" id="showRegister">Зареєструватися</a></p>
     </div>
 
     <script>
-        document.getElementById('loginForm').addEventListener('submit', function (e) {
-            e.preventDefault();
+        let isRegisterMode = false;
+        const authCard = document.querySelector('.auth-card');
+        const loginForm = document.getElementById('loginForm');
+        const footerText = document.querySelector('.footer-text');
+
+        function switchToRegister() {
+            isRegisterMode = true;
+            loginForm.innerHTML = `
+                <div class="input-group">
+                    <label>Ім'я</label>
+                    <input type="text" id="regName" placeholder="Ваше ім'я">
+                    <div id="nameError" class="error-msg"></div>
+                </div>
+                <div class="input-group">
+                    <label>Електронна пошта</label>
+                    <input type="email" id="regEmail" placeholder="example@mail.com">
+                    <div id="emailError" class="error-msg"></div>
+                </div>
+                <div class="input-group">
+                    <label>Пароль</label>
+                    <input type="password" id="regPassword" placeholder="Щонайменше 6 символів">
+                    <div id="passwordError" class="error-msg"></div>
+                </div>
+                <div class="input-group">
+                    <label>Підтвердіть пароль</label>
+                    <input type="password" id="regConfirmPassword" placeholder="Повторіть пароль">
+                    <div id="confirmPasswordError" class="error-msg"></div>
+                </div>
+                <button type="submit" class="login-btn">Зареєструватися</button>
+            `;
+
+            footerText.innerHTML = 'Вже є акаунт? <a href="#" id="showLogin">Увійти</a>';
+
+            document.getElementById('loginForm').onsubmit = function(e) {
+                e.preventDefault();
+                handleRegister();
+            };
+
+            document.getElementById('showLogin').onclick = function(e) {
+                e.preventDefault();
+                switchToLogin();
+            };
+        }
+
+        function switchToLogin() {
+            isRegisterMode = false;
+            loginForm.innerHTML = `
+                <div class="input-group">
+                    <label>Електронна пошта</label>
+                    <input type="email" id="email" placeholder="example@mail.com">
+                    <div id="emailError" class="error-msg"></div>
+                </div>
+
+                <div class="input-group">
+                    <label>Пароль</label>
+                    <input type="password" id="password" placeholder="••••••••">
+                    <div id="passError" class="error-msg"></div>
+                    <a href="#" class="forgot-link">Забули пароль?</a>
+                </div>
+
+                <button type="submit" class="login-btn">Увійти</button>
+            `;
+
+            footerText.innerHTML = 'Немає акаунта? <a href="#" id="showRegister">Зареєструватися</a>';
+
+            document.getElementById('loginForm').onsubmit = function(e) {
+                e.preventDefault();
+                handleLogin();
+            };
+
+            document.getElementById('showRegister').onclick = function(e) {
+                e.preventDefault();
+                switchToRegister();
+            };
+        }
+
+        function handleLogin() {
+            const email = document.getElementById('email');
+            const pass = document.getElementById('password');
+            const emailErr = document.getElementById('emailError');
+            const passErr = document.getElementById('passError');
+
+            emailErr.innerText = '';
+            passErr.innerText = '';
+            email.style.borderColor = '#ced4da';
+            pass.style.borderColor = '#ced4da';
+
+            if (!email.value) {
+                emailErr.innerText = 'Будь ласка, введіть email';
+                email.style.borderColor = '#dc3545';
+                email.focus();
+                return;
+            }
+
+            if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value)) {
+                emailErr.innerText = 'Невірний формат email';
+                email.style.borderColor = '#dc3545';
+                email.focus();
+                return;
+            }
+
+            if (!pass.value) {
+                passErr.innerText = 'Будь ласка, введіть пароль';
+                pass.style.borderColor = '#dc3545';
+                pass.focus();
+                return;
+            }
+
+            if (pass.value.length < 6) {
+                passErr.innerText = 'Пароль повинен містити щонайменше 6 символів';
+                pass.style.borderColor = '#dc3545';
+                pass.focus();
+                return;
+            }
+
             window.location.href = 'index.html';
-        });
+        }
+
+        function handleRegister() {
+            const name = document.getElementById('regName');
+            const email = document.getElementById('regEmail');
+            const password = document.getElementById('regPassword');
+            const confirmPassword = document.getElementById('regConfirmPassword');
+
+            const nameErr = document.getElementById('nameError');
+            const emailErr = document.getElementById('emailError');
+            const passwordErr = document.getElementById('passwordError');
+            const confirmPasswordErr = document.getElementById('confirmPasswordError');
+
+            nameErr.innerText = '';
+            emailErr.innerText = '';
+            passwordErr.innerText = '';
+            confirmPasswordErr.innerText = '';
+
+            name.style.borderColor = '#ced4da';
+            email.style.borderColor = '#ced4da';
+            password.style.borderColor = '#ced4da';
+            confirmPassword.style.borderColor = '#ced4da';
+
+            if (!name.value) {
+                nameErr.innerText = 'Будь ласка, введіть ваше ім\'я';
+                name.style.borderColor = '#dc3545';
+                name.focus();
+                return;
+            }
+
+            if (!email.value) {
+                emailErr.innerText = 'Будь ласка, введіть email';
+                email.style.borderColor = '#dc3545';
+                email.focus();
+                return;
+            }
+
+            if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value)) {
+                emailErr.innerText = 'Невірний формат email';
+                email.style.borderColor = '#dc3545';
+                email.focus();
+                return;
+            }
+
+            if (!password.value) {
+                passwordErr.innerText = 'Будь ласка, введіть пароль';
+                password.style.borderColor = '#dc3545';
+                password.focus();
+                return;
+            }
+
+            if (password.value.length < 6) {
+                passwordErr.innerText = 'Пароль повинен містити щонайменше 6 символів';
+                password.style.borderColor = '#dc3545';
+                password.focus();
+                return;
+            }
+
+            if (!confirmPassword.value) {
+                confirmPasswordErr.innerText = 'Будь ласка, підтвердіть пароль';
+                confirmPassword.style.borderColor = '#dc3545';
+                confirmPassword.focus();
+                return;
+            }
+
+            if (password.value !== confirmPassword.value) {
+                confirmPasswordErr.innerText = 'Паролі не співпадають';
+                confirmPassword.style.borderColor = '#dc3545';
+                confirmPassword.focus();
+                return;
+            }
+
+            alert('Реєстрація успішна! Тепер ви можете увійти.');
+            switchToLogin();
+        }
+
+        document.getElementById('showRegister').onclick = function(e) {
+            e.preventDefault();
+            switchToRegister();
+        };
+
+        document.getElementById('loginForm').onsubmit = function(e) {
+            e.preventDefault();
+            handleLogin();
+        };
     </script>
+    </div>
 </body>
 
 </html>
