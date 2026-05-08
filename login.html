@@ -32,6 +32,7 @@
         </div>
 
         <form id="loginForm" novalidate>
+            <div id="authResponse" class="auth-response"></div>
             <div class="input-group">
                 <label>Електронна пошта</label>
                 <input type="email" id="email" placeholder="example@mail.com">
@@ -96,9 +97,21 @@
             };
         }
 
+        function showStatus(message, isSuccess) {
+            const authResponse = document.getElementById('authResponse');
+            authResponse.innerText = message;
+            authResponse.className = 'auth-response ' + (isSuccess ? 'success' : 'error');
+            authResponse.style.display = 'block';
+
+            setTimeout(() => {
+                authResponse.style.display = 'none';
+            }, 5000);
+        }
+
         function switchToLogin() {
             isRegisterMode = false;
             loginForm.innerHTML = `
+                <div id="authResponse" class="auth-response"></div>
                 <div class="input-group">
                     <label>Електронна пошта</label>
                     <input type="email" id="email" placeholder="example@mail.com">
@@ -167,7 +180,31 @@
                 return;
             }
 
-            window.location.href = 'index.html';
+            fetch('http://localhost:5000/api/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    "email": email.value,
+                    "password": pass.value
+                })
+            })
+            .then(response => {
+                if (!response.ok) {
+                    return response.json().then(err => {
+                        throw new Error(err.message || 'Помилка авторизації');
+                    });
+                }
+                return response.json();
+            })
+            .then(data => {
+                localStorage.setItem('user', JSON.stringify(data));
+                window.location.href = 'index.html';
+            })
+            .catch(error => {
+                alert(error.message);
+            });
         }
 
         function handleRegister() {
@@ -240,8 +277,32 @@
                 return;
             }
 
-            alert('Реєстрація успішна! Тепер ви можете увійти.');
-            switchToLogin();
+            fetch('http://localhost:5000/api/register', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    "full_name": name.value,
+                    "email": email.value,
+                    "password": password.value
+                })
+            })
+            .then(response => {
+                if (!response.ok) {
+                    return response.json().then(err => {
+                        throw new Error(err.message || 'Помилка реєстрації');
+                    });
+                }
+                return response.json();
+            })
+            .then(data => {
+                alert('Реєстрація успішна! Тепер ви можете увійти.');
+                switchToLogin();
+            })
+            .catch(error => {
+                alert(error.message);
+            });
         }
 
         document.getElementById('showRegister').onclick = function(e) {

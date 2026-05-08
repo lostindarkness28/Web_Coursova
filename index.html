@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="uk">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,6 +8,7 @@
     <link rel="stylesheet" href="css/calendar-style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
+
 <body>
 
     <aside class="sidebar">
@@ -44,8 +46,12 @@
                 <div class="month-wrapper">
                     <span class="month-display" id="monthBtn"></span>
                     <span class="year-display" id="yearBtn"></span>
-                    <div class="picker-modal" id="yearPicker"><div class="picker-grid year-grid" id="yearPickerGrid"></div></div>
-                    <div class="picker-modal" id="monthPicker"><div class="picker-grid month-grid" id="monthPickerGrid"></div></div>
+                    <div class="picker-modal" id="yearPicker">
+                        <div class="picker-grid year-grid" id="yearPickerGrid"></div>
+                    </div>
+                    <div class="picker-modal" id="monthPicker">
+                        <div class="picker-grid month-grid" id="monthPickerGrid"></div>
+                    </div>
                 </div>
             </div>
             <div class="search-container">
@@ -65,10 +71,11 @@
             </div>
             <div class="user-profile">
                 <div class="avatar-container" id="profileBtn">
-                    <div class="user-info-text">
-                        <span class="user-name" id="displayUserName">Користувач</span>
-                        <span class="user-status">Admin</span>
-                    </div>
+                     <div class="user-info-text">
+                         <span class="user-name" id="userNameDisplay">Користувач</span>
+
+                         <span class="user-status">Admin</span>
+                     </div>
                     <img src="" alt="Avatar" class="avatar-img" id="displayAvatar">
                 </div>
                 <button class="notification-btn" id="notificationBtn">
@@ -92,7 +99,8 @@
     <div class="modal-overlay" id="modalOverlay">
         <div class="modal-card">
             <h2>Нова подія</h2>
-            <div class="input-group"><label>Назва</label><input type="text" id="eventTitle" placeholder="Що плануєте?"></div>
+            <div class="input-group"><label>Назва</label><input type="text" id="eventTitle" placeholder="Що плануєте?">
+            </div>
             <div class="input-group">
                 <label>Категорія</label>
                 <select id="eventCategory">
@@ -126,4 +134,5 @@
 
     <script src="js/main.js"></script>
 </body>
+
 </html>

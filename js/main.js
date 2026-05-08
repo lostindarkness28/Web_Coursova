@@ -4,10 +4,8 @@ let curMonth = curDate.getMonth();
 let curYear = curDate.getFullYear();
 
 let events = JSON.parse(localStorage.getItem('calendar_events')) || [];
-let userData = JSON.parse(localStorage.getItem('calendar_user')) || {
-    name: "Користувач",
-    email: "user@example.com"
-};
+let userData = JSON.parse(localStorage.getItem('user')) || {};
+console.log("Дані користувача з пам'яті:", userData);
 let isDarkTheme = localStorage.getItem('dark_theme') === 'true';
 let searchQuery = '';
 let filteredEvents = [];
@@ -102,20 +100,16 @@ document.getElementById('saveEventBtn').onclick = () => {
     const title = document.getElementById('eventTitle').value;
     const date = document.getElementById('eventDate').value;
     const category = document.getElementById('eventCategory').value;
-    const reminderTime = document.getElementById('eventReminderTime').value;
+  
 
     if (title && date) {
-        events.push({ title, date, category, reminderTime: reminderTime || null });
+        events.push({ title, date, category });
 
         localStorage.setItem('calendar_events', JSON.stringify(events));
         document.getElementById('modalOverlay').style.display = 'none';
         document.getElementById('eventTitle').value = '';
-        document.getElementById('eventReminderTime').value = '';
-        updateAll();
 
-        if (reminderTime) {
-            setReminder(title, date, reminderTime);
-        }
+        updateAll();
     } else {
         alert("Заповніть назву та дату!");
     }
@@ -168,7 +162,7 @@ function searchEvents() {
     renderCalendar(curMonth, curYear);
 }
 
-document.getElementById('themeToggle').onclick = function() {
+document.getElementById('themeToggle').onclick = function () {
     isDarkTheme = !isDarkTheme;
     document.body.classList.toggle('dark-theme', isDarkTheme);
     localStorage.setItem('dark_theme', isDarkTheme);
@@ -212,35 +206,46 @@ function renderCalendar(month, year) {
 }
 
 function updateProfileUI() {
-    const firstLetter = userData.name ? userData.name.charAt(0).toUpperCase() : 'К';
-    document.getElementById('displayUserName').innerText = firstLetter;
-    document.getElementById('dropdownUserName').innerText = userData.name;
-    document.getElementById('dropdownUserEmail').innerText = userData.email;
-    document.getElementById('editUserName').value = userData.name;
-    document.getElementById('editUserEmail').value = userData.email;
+  
+    const name = (userData.user && userData.user.name) || userData.name || "Гість";
+    const email = userData.email || (userData.user && userData.user.email) || "Не вказано";
 
-    const avatarUrl = `https://ui-avatars.com/api/?name=${encodeURIComponent(firstLetter)}&background=185eff&color=fff`;
-    document.getElementById('displayAvatar').src = avatarUrl;
-    document.getElementById('editAvatarPreview').src = avatarUrl;
+   
+    if (document.getElementById('userNameDisplay')) {
+        document.getElementById('userNameDisplay').innerText = name;
+    }
+    if (document.getElementById('dropdownUserName')) {
+        document.getElementById('dropdownUserName').innerText = name;
+    }
+    if (document.getElementById('dropdownUserEmail')) {
+        document.getElementById('dropdownUserEmail').innerText = email;
+    }
+
+    const avatarUrl = `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=185eff&color=fff`;
+    if (document.getElementById('displayAvatar')) {
+        document.getElementById('displayAvatar').src = avatarUrl;
+    }
 }
 
 document.getElementById('saveProfileBtn').onclick = () => {
-    userData.name = document.getElementById('editUserName').value;
-    userData.email = document.getElementById('editUserEmail').value;
-    localStorage.setItem('calendar_user', JSON.stringify(userData));
+    if (!userData.user) {
+        userData.user = {};
+    }
+    userData.user.name = document.getElementById('editUserName').value;
+    localStorage.setItem('user', JSON.stringify(userData));
     updateProfileUI();
     document.getElementById('profileModal').style.display = 'none';
 };
 
-document.querySelector('.logout').onclick = function(e) {
+document.querySelector('.logout').onclick = function (e) {
     e.preventDefault();
     if (confirm('Ви дійсно хочете вийти?')) {
-        localStorage.removeItem('calendar_user');
+        localStorage.removeItem('user');
         window.location.href = 'login.html';
     }
 };
 
-document.getElementById('calendarGrid').onclick = function(e) {
+document.getElementById('calendarGrid').onclick = function (e) {
     if (e.target.classList.contains('ev')) {
         const eventTitle = e.target.textContent;
         if (confirm(`Видалити подію "${eventTitle}"?`)) {
@@ -316,7 +321,7 @@ function renderNotifications() {
     });
 }
 
-document.getElementById('notificationBtn').onclick = function(e) {
+document.getElementById('notificationBtn').onclick = function (e) {
     e.stopPropagation();
     const modal = document.getElementById('notificationModal');
     modal.style.display = modal.style.display === 'block' ? 'none' : 'block';
@@ -329,7 +334,7 @@ document.getElementById('notificationBtn').onclick = function(e) {
     }
 };
 
-document.getElementById('clearNotifications').onclick = function() {
+document.getElementById('clearNotifications').onclick = function () {
     if (confirm('Очистити всі сповіщення?')) {
         notifications = [];
         localStorage.setItem('calendar_notifications', JSON.stringify(notifications));
@@ -338,14 +343,21 @@ document.getElementById('clearNotifications').onclick = function() {
     }
 };
 
-document.getElementById('prevMonth').onclick = () => { curMonth--; if(curMonth < 0){curMonth=11; curYear--;} updateAll(); };
-document.getElementById('nextMonth').onclick = () => { curMonth++; if(curMonth > 11){curMonth=0; curYear++;} updateAll(); };
+document.getElementById('prevMonth').onclick = () => { curMonth--; if (curMonth < 0) { curMonth = 11; curYear--; } updateAll(); };
+document.getElementById('nextMonth').onclick = () => { curMonth++; if (curMonth > 11) { curMonth = 0; curYear++; } updateAll(); };
 
-monthBtn.onclick = (e) => { e.stopPropagation(); yearPicker.style.display='none'; monthPicker.style.display = (monthPicker.style.display==='block'?'none':'block'); };
-yearBtn.onclick = (e) => { e.stopPropagation(); monthPicker.style.display='none'; yearPicker.style.display = (yearPicker.style.display==='block'?'none':'block'); };
+monthBtn.onclick = (e) => { e.stopPropagation(); yearPicker.style.display = 'none'; monthPicker.style.display = (monthPicker.style.display === 'block' ? 'none' : 'block'); };
+yearBtn.onclick = (e) => { e.stopPropagation(); monthPicker.style.display = 'none'; yearPicker.style.display = (yearPicker.style.display === 'block' ? 'none' : 'block'); };
 
-document.getElementById('profileBtn').onclick = (e) => { e.stopPropagation(); const d = document.getElementById('profileDropdown'); d.style.display = (d.style.display==='block'?'none':'block'); };
-document.getElementById('openProfileLink').onclick = (e) => { e.preventDefault(); document.getElementById('profileModal').style.display = 'flex'; document.getElementById('profileDropdown').style.display = 'none'; };
+document.getElementById('profileBtn').onclick = (e) => { e.stopPropagation(); const d = document.getElementById('profileDropdown'); d.style.display = (d.style.display === 'block' ? 'none' : 'block'); };
+document.getElementById('openProfileLink').onclick = (e) => {
+    e.preventDefault();
+    document.getElementById('editUserName').value = (userData.user && userData.user.name) || userData.name || "";
+    document.getElementById('editUserEmail').value = userData.email || (userData.user && userData.user.email) || "";
+    document.getElementById('editUserEmail').readOnly = true;
+    document.getElementById('profileModal').style.display = 'flex';
+    document.getElementById('profileDropdown').style.display = 'none';
+};
 document.getElementById('closeProfileModal').onclick = () => document.getElementById('profileModal').style.display = 'none';
 
 document.getElementById('openModal').onclick = () => {
@@ -358,7 +370,7 @@ document.querySelectorAll('.filter-item input').forEach(checkbox => {
     checkbox.onchange = () => renderCalendar(curMonth, curYear);
 });
 
-window.onclick = function(e) {
+window.onclick = function (e) {
     const monthPicker = document.getElementById('monthPicker');
     const yearPicker = document.getElementById('yearPicker');
     const profileDropdown = document.getElementById('profileDropdown');
@@ -377,7 +389,7 @@ window.onclick = function(e) {
         notificationModal.style.display = 'none';
     }
 
-    if(e.target.classList.contains('modal-overlay')) {
+    if (e.target.classList.contains('modal-overlay')) {
         e.target.style.display = 'none';
     }
 };
@@ -391,7 +403,7 @@ if (isDarkTheme) {
 updateThemeIcon();
 
 document.getElementById('searchButton').onclick = searchEvents;
-document.getElementById('searchInput').onkeyup = function(e) {
+document.getElementById('searchInput').onkeyup = function (e) {
     if (e.key === 'Enter') {
         searchEvents();
     }
@@ -403,3 +415,5 @@ renderNotifications();
 if (Notification.permission !== 'granted' && Notification.permission !== 'denied') {
     Notification.requestPermission();
 }
+
+updateProfileUI();

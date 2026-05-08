@@ -131,5 +131,24 @@ input {
     color: red;
     font-size: 12px;
     margin-top: 5px;
-    height: 15px; 
+    height: 15px;
+}
+
+.auth-response {
+    padding: 12px;
+    border-radius: 8px;
+    font-weight: bold;
+    text-align: center;
+    display: none;
+    margin-bottom: 20px;
+}
+
+.auth-response.success {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.auth-response.error {
+    background-color: #f44336;
+    color: white;
 }

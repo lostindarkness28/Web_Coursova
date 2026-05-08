@@ -132,7 +132,7 @@ body.dark-theme {
     margin-bottom: 10px;
 }
 
-/* Notification Button */
+
 .notification-btn {
     position: relative;
     background: none;
@@ -171,7 +171,7 @@ body.dark-theme {
     line-height: 1;
 }
 
-/* Notification Modal */
+
 .notification-modal {
     position: absolute;
     top: 60px;
@@ -352,7 +352,6 @@ body.dark-theme {
     justify-content: center;
 }
 
-/* Sidebar */
 .sidebar {
     width: 280px;
     background: #fff;
@@ -391,7 +390,6 @@ body.dark-theme {
     transform: translateY(-1px);
 }
 
-/* Category Filters */
 .category-title {
     font-size: 12px;
     font-weight: 700;
@@ -453,7 +451,7 @@ body.dark-theme {
     top: -1px;
 }
 
-/* Main Header */
+
 .main-content {
     flex: 1;
     display: flex;
@@ -524,7 +522,6 @@ body.dark-theme {
     background: #f1f5f9;
 }
 
-/* Pickers */
 .picker-modal {
     position: absolute;
     top: 50px;
@@ -569,7 +566,7 @@ body.dark-theme {
     color: #fff;
 }
 
-/* Calendar Grid */
+
 .calendar-grid {
     flex: 1;
     display: grid;
@@ -619,7 +616,7 @@ body.dark-theme {
     margin-bottom: 5px;
 }
 
-/* Event Tags */
+
 .ev {
     padding: 4px 8px;
     border-radius: 6px;
@@ -643,7 +640,7 @@ body.dark-theme {
     background: #ef4444;
 }
 
-/* User Profile */
+
 .user-profile {
     display: flex;
     align-items: center;
@@ -687,7 +684,7 @@ body.dark-theme {
     border: 2px solid #f1f5f9;
 }
 
-/* Dropdown */
+
 .profile-dropdown {
     position: absolute;
     top: 70px;
@@ -738,7 +735,7 @@ body.dark-theme {
     color: #185eff;
 }
 
-/* Modals */
+
 .modal-overlay {
     position: fixed;
     inset: 0;
@@ -818,7 +815,7 @@ body.dark-theme {
     cursor: pointer;
 }
 
-/* Mini Calendar */
+
 .mini-calendar {
     background: #f8fafc;
     border-radius: 15px;
@@ -884,7 +881,7 @@ body.dark-theme {
 .profile-header-centered {
     display: flex;
     flex-direction: column;
-    align-items: center; /* Центрує по горизонталі */
+    align-items: center; 
     text-align: center;
     margin-bottom: 25px;
 }
@@ -896,15 +893,15 @@ body.dark-theme {
     object-fit: cover;
     border: 5px solid #f1f5f9;
     box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-    margin-bottom: 15px; /* Відступ від картинки до заголовку */
+    margin-bottom: 15px; 
 }
 
 #profileModalTitle {
-    margin-bottom: 0; /* Прибираємо стандартний відступ, бо він уже є у картинки */
+    margin-bottom: 0;
     font-size: 22px;
 }
 
-/* Прибираємо старий стиль avatar-edit, якщо він був */
+
 .avatar-edit {
     display: none;
 }
