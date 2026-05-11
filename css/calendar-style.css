@@ -815,6 +815,25 @@ body.dark-theme {
     cursor: pointer;
 }
 
+.btn-delete {
+    background-color: transparent;
+    color: white;
+    border: 1px solid #ff4d4d;
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    outline: none;
+}
+
+.btn-delete:hover {
+    background: #dc2626; 
+    color: white;    
+    border-color: #dc2626; 
+}
+
 
 .mini-calendar {
     background: #f8fafc;

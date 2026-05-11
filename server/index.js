@@ -5,18 +5,16 @@ const cors = require('cors');
 require('dotenv').config();
 
 const app = express();
-app.use(cors());
-app.use(express.json()); // Щоб розуміти JSON від фронтенда
+app.use(cors()); // Дозволяємо запити з будь-яких портів
+app.use(express.json()); // Щоб сервер розумів JSON
 
-// 1. Налаштування підключення до БД (дані беруться з .env)
 const db = mysql.createPool({
     host: 'localhost',
     user: 'root',
-    password: 'vnik34rvdkgbd', // <--- Впиши свій пароль від MySQL!
+    password: 'vnik34rvdkgbd', 
     database: 'smart_calendar'
 });
 
-// Перевірка коннекту
 db.getConnection((err, conn) => {
     if (err) console.log("Помилка БД:", err.message);
     else {
@@ -25,12 +23,10 @@ db.getConnection((err, conn) => {
     }
 });
 
-// 2. МАРШРУТ РЕЄСТРАЦІЇ
 app.post('/api/register', async (req, res) => {
     const { full_name, email, password } = req.body;
 
     try {
-        // Хешуємо пароль (робимо "кашу")
         const hashedPassword = await bcrypt.hash(password, 10);
         
         const sql = "INSERT INTO users (full_name, email, password) VALUES (?, ?, ?)";
@@ -56,7 +52,6 @@ app.post('/api/login', (req, res) => {
         if (results.length === 0) return res.status(404).json({ message: "Користувача не знайдено!" });
 
         const user = results[0];
-        // Порівнюємо введений пароль з хешем у базі
         const isMatch = await bcrypt.compare(password, user.password);
 
         if (!isMatch) return res.status(400).json({ message: "Невірний пароль!" });
@@ -69,6 +64,46 @@ app.post('/api/login', (req, res) => {
                 email: user.email
             }
         });
+    });
+});
+
+// 4. МАРШРУТ СТВОРЕННЯ ПОДІЇ
+app.post('/api/events', (req, res) => {
+    const { user_id, title, description, event_date, category } = req.body;
+    const sql = "INSERT INTO events (user_id, title, description, event_date, category) VALUES (?, ?, ?, ?, ?)";
+    db.query(sql, [user_id, title, description, event_date, category], (err, result) => {
+        if (err) return res.status(500).json(err);
+        res.status(201).json({ id: result.insertId });
+    });
+});
+
+// 5. МАРШРУТ ОТРИМАННЯ ПОДІЙ КОРИСТУВАЧА
+app.get('/api/events/:userId', (req, res) => {
+    const sql = "SELECT id, title, description, DATE_FORMAT(event_date, '%Y-%m-%d') as event_date, category FROM events WHERE user_id = ?";
+    db.query(sql, [req.params.userId], (err, results) => {
+        if (err) return res.status(500).json({ error: err.message });
+        console.log("Отправляем события:", results);
+        res.json(results);
+    });
+});
+
+// 6. МАРШРУТ ОНОВЛЕННЯ ПОДІЇ
+app.put('/api/events/:id', (req, res) => {
+    const { title, event_date, category } = req.body;
+    const sql = "UPDATE events SET title = ?, event_date = ?, category = ? WHERE id = ?";
+    db.query(sql, [title, event_date, category, req.params.id], (err) => {
+        if (err) return res.status(500).json(err);
+        res.json({ message: "Updated" });
+    });
+});
+
+// 7. МАРШРУТ ВИДАЛЕННЯ ПОДІЇ
+app.delete('/api/events/:id', (req, res) => {
+    const eventId = req.params.id;
+    const sql = "DELETE FROM events WHERE id = ?";
+    db.query(sql, [eventId], (err, result) => {
+        if (err) return res.status(500).json({ error: err.message });
+        res.json({ message: "Success" });
     });
 });
 

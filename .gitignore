@@ -1,0 +1,27 @@
+# Игнорируем все папки node_modules в проекте
+node_modules/
+**/node_modules/
+
+# Игнорируем файлы окружения (где лежат пароли от базы)
+.env
+
+# Игнорируем логи ошибок
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Игнорируем системные файлы (для маков)
+.DS_Store# Игнорируем все папки node_modules в проекте
+node_modules/
+**/node_modules/
+
+# Игнорируем файлы окружения (где лежат пароли от базы)
+.env
+
+# Игнорируем логи ошибок
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Игнорируем системные файлы (для маков)
+.DS_Store

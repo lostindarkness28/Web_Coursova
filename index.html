@@ -59,16 +59,6 @@
                 <button id="searchButton"><i class="fas fa-search"></i></button>
                 <button id="themeToggle" class="theme-toggle-btn"><i class="fas fa-moon"></i></button>
             </div>
-            <!-- Notification Modal -->
-            <div class="notification-modal" id="notificationModal">
-                <div class="notification-header">
-                    <div class="notification-title">Сповіщення</div>
-                    <button class="notification-clear" id="clearNotifications">Очистити все</button>
-                </div>
-                <div class="notification-list" id="notificationList">
-                    <!-- Notifications will be inserted here by JavaScript -->
-                </div>
-            </div>
             <div class="user-profile">
                 <div class="avatar-container" id="profileBtn">
                      <div class="user-info-text">
@@ -78,10 +68,6 @@
                      </div>
                     <img src="" alt="Avatar" class="avatar-img" id="displayAvatar">
                 </div>
-                <button class="notification-btn" id="notificationBtn">
-                    <i class="fas fa-bell"></i>
-                    <span class="notification-badge" id="notificationBadge">0</span>
-                </button>
                 <div class="profile-dropdown" id="profileDropdown">
                     <div class="dropdown-header">
                         <p class="dropdown-user-name" id="dropdownUserName">Користувач</p>
@@ -113,6 +99,7 @@
             <div class="modal-buttons">
                 <button class="btn-cancel" id="closeModal">Скасувати</button>
                 <button class="btn-save" id="saveEventBtn">Зберегти</button>
+                <button class="btn-delete" id="deleteEventBtn" style="display: none; background-color: #ff4d4d;">Видалити</button>
             </div>
         </div>
     </div>
