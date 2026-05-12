@@ -23,7 +23,10 @@ const db = mysql.createPool({
     port: process.env.DB_PORT,
     ssl: {
         rejectUnauthorized: false
-    }
+    },
+    waitForConnections: true,
+    connectionLimit: 10,
+    queueLimit: 0
 });
 
 db.getConnection((err, conn) => {
@@ -111,5 +114,5 @@ app.delete('/api/events/:id', (req, res) => {
     });
 });
 
-const PORT = 5000;
+const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Сервер працює на порту ${PORT}`));
