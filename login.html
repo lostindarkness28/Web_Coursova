@@ -85,12 +85,12 @@
 
             footerText.innerHTML = 'Вже є акаунт? <a href="#" id="showLogin">Увійти</a>';
 
-            document.getElementById('loginForm').onsubmit = function(e) {
+            document.getElementById('loginForm').onsubmit = function (e) {
                 e.preventDefault();
                 handleRegister();
             };
 
-            document.getElementById('showLogin').onclick = function(e) {
+            document.getElementById('showLogin').onclick = function (e) {
                 e.preventDefault();
                 switchToLogin();
             };
@@ -129,12 +129,12 @@
 
             footerText.innerHTML = 'Немає акаунта? <a href="#" id="showRegister">Зареєструватися</a>';
 
-            document.getElementById('loginForm').onsubmit = function(e) {
+            document.getElementById('loginForm').onsubmit = function (e) {
                 e.preventDefault();
                 handleLogin();
             };
 
-            document.getElementById('showRegister').onclick = function(e) {
+            document.getElementById('showRegister').onclick = function (e) {
                 e.preventDefault();
                 switchToRegister();
             };
@@ -179,31 +179,26 @@
                 return;
             }
 
-            fetch('http://localhost:5000/api/login', {
+            fetch('/login', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    "email": email.value,
-                    "password": pass.value
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email, password })
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        return response.json().then(err => {
+                            throw new Error(err.message || 'Помилка авторизації');
+                        });
+                    }
+                    return response.json();
                 })
-            })
-            .then(response => {
-                if (!response.ok) {
-                    return response.json().then(err => {
-                        throw new Error(err.message || 'Помилка авторизації');
-                    });
-                }
-                return response.json();
-            })
-            .then(data => {
-                localStorage.setItem('user', JSON.stringify(data));
-                window.location.href = 'index.html';
-            })
-            .catch(error => {
-                alert(error.message);
-            });
+                .then(data => {
+                    localStorage.setItem('user', JSON.stringify(data));
+                    window.location.href = 'index.html';
+                })
+                .catch(error => {
+                    alert(error.message);
+                });
         }
 
         function handleRegister() {
@@ -287,29 +282,29 @@
                     "password": password.value
                 })
             })
-            .then(response => {
-                if (!response.ok) {
-                    return response.json().then(err => {
-                        throw new Error(err.message || 'Помилка реєстрації');
-                    });
-                }
-                return response.json();
-            })
-            .then(data => {
-                alert('Реєстрація успішна! Тепер ви можете увійти.');
-                switchToLogin();
-            })
-            .catch(error => {
-                alert(error.message);
-            });
+                .then(response => {
+                    if (!response.ok) {
+                        return response.json().then(err => {
+                            throw new Error(err.message || 'Помилка реєстрації');
+                        });
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    alert('Реєстрація успішна! Тепер ви можете увійти.');
+                    switchToLogin();
+                })
+                .catch(error => {
+                    alert(error.message);
+                });
         }
 
-        document.getElementById('showRegister').onclick = function(e) {
+        document.getElementById('showRegister').onclick = function (e) {
             e.preventDefault();
             switchToRegister();
         };
 
-        document.getElementById('loginForm').onsubmit = function(e) {
+        document.getElementById('loginForm').onsubmit = function (e) {
             e.preventDefault();
             handleLogin();
         };
