@@ -12,7 +12,11 @@ app.get('/', (req, res) => {
 app.use(express.static(path.join(__dirname, '../')));
 
 
-app.use(cors());
+app.use(cors({
+    origin: '*', 
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    allowedHeaders: ['Content-Type', 'Authorization']
+}));
 app.use(express.json());
 
 const db = mysql.createPool({
