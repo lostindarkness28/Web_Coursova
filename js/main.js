@@ -279,7 +279,7 @@ async function loadEventsFromAPI() {
     }
 
     try {
-        const response = await fetch(`${API_URL}/events/${userData.user.id}`);
+        const response = await fetch(`${API_URL}/api/events/${userData.user.id}`);
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
@@ -305,7 +305,7 @@ async function saveEventToAPI(eventData) {
     }
 
     try {
-        const response = await fetch(`${API_URL}/events`, {
+        const response = await fetch(`${API_URL}/api/events`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
