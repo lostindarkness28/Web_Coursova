@@ -483,4 +483,3 @@ document.getElementById('searchInput').onkeyup = function (e) {
     }
 };
 
-updateNotificationBadge();
