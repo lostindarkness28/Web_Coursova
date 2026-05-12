@@ -6,12 +6,12 @@ require('dotenv').config();
 
 const app = express();
 const path = require('path');
-
-app.use(express.static(path.join(__dirname, '../')));
-
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, '../login.html'));
 });
+app.use(express.static(path.join(__dirname, '../')));
+
+
 app.use(cors()); 
 app.use(express.json()); 
 
