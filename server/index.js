@@ -12,16 +12,18 @@ app.get('/', (req, res) => {
 app.use(express.static(path.join(__dirname, '../')));
 
 
-app.use(cors()); 
-app.use(express.json()); 
+app.use(cors());
+app.use(express.json());
 
 const db = mysql.createPool({
-    host: process.env.DB_HOST || 'localhost',
-    user: process.env.DB_USER || 'root',
-    password: process.env.DB_PASSWORD || 'vnik34rvdkgbd', 
-    database: process.env.DB_NAME || 'smart_calendar',
-    port: process.env.DB_PORT || 3306,
-    ssl: process.env.DB_HOST ? { rejectUnauthorized: false } : null
+    host: process.env.DB_HOST,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_NAME,
+    port: process.env.DB_PORT,
+    ssl: {
+        rejectUnauthorized: false
+    }
 });
 
 db.getConnection((err, conn) => {
@@ -37,7 +39,7 @@ app.post('/api/register', async (req, res) => {
 
     try {
         const hashedPassword = await bcrypt.hash(password, 10);
-        
+
         const sql = "INSERT INTO users (full_name, email, password) VALUES (?, ?, ?)";
         db.query(sql, [full_name, email, hashedPassword], (err, result) => {
             if (err) {
