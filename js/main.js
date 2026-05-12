@@ -3,7 +3,7 @@ let curDate = new Date();
 let curMonth = curDate.getMonth();
 let curYear = curDate.getFullYear();
 
-const API_URL = 'http://localhost:5000/api';
+const API_URL = 'https://my-smart-calendar-pgwl.onrender.com';
 
 let events = [];
 let currentEventId = null;
@@ -12,9 +12,6 @@ console.log("Дані користувача з пам'яті:", userData);
 let isDarkTheme = localStorage.getItem('dark_theme') === 'true';
 let searchQuery = '';
 let filteredEvents = [];
-//let notifications = JSON.parse(localStorage.getItem('calendar_notifications')) || [];
-//let unreadCount = 0;
-// Додано: прапорець для відстеження виконання запиту до API
 let isLoadingEvents = false;
 
 const monthBtn = document.getElementById('monthBtn');
@@ -72,12 +69,10 @@ function updateAll() {
 }
 
 async function loadAndInitialize() {
-    // Load events from API when page loads
     events = await loadEventsFromAPI();
     updateAll();
 }
 
-// Update initialization to load events from API
 document.addEventListener('DOMContentLoaded', async () => {
     await loadAndInitialize();
 });
@@ -88,19 +83,15 @@ document.getElementById('calendarGrid').onclick = async function (e) {
         const event = events.find(ev => ev.title === eventTitle);
 
         if (event) {
-            // Open modal in edit mode
             document.getElementById('eventTitle').value = event.title;
             document.getElementById('eventDate').value = event.date;
             document.getElementById('eventCategory').value = event.category || 'work';
 
-            // Show delete button and change save button text
             document.getElementById('deleteEventBtn').style.display = 'block';
             document.getElementById('saveEventBtn').textContent = 'Оновити';
 
-            // Set current event ID
             currentEventId = event.id;
 
-            // Open modal
             document.getElementById('modalOverlay').style.display = 'flex';
         }
     }
@@ -116,15 +107,12 @@ document.getElementById('saveEventBtn').onclick = async () => {
 
         let success;
         if (currentEventId) {
-            // Update existing event
             success = await updateEventToAPI(currentEventId, eventData);
         } else {
-            // Create new event
             success = await saveEventToAPI(eventData);
         }
 
         if (success) {
-            // Reload events from API and update UI
             events = await loadEventsFromAPI();
             document.getElementById('modalOverlay').style.display = 'none';
             resetModal();
@@ -137,12 +125,10 @@ document.getElementById('saveEventBtn').onclick = async () => {
     }
 };
 
-// Add delete button functionality
 document.getElementById('deleteEventBtn').onclick = async () => {
     if (currentEventId && confirm(`Ви дійсно хочете видалити цю подію?`)) {
         const success = await deleteEvent(currentEventId);
         if (success) {
-            // Reload events from API and update UI
             events = await loadEventsFromAPI();
             document.getElementById('modalOverlay').style.display = 'none';
             resetModal();
@@ -153,7 +139,6 @@ document.getElementById('deleteEventBtn').onclick = async () => {
     }
 };
 
-// Helper function to reset modal
 function resetModal() {
     document.getElementById('eventTitle').value = '';
     document.getElementById('eventDate').value = new Date().toISOString().split('T')[0];
@@ -301,7 +286,6 @@ async function loadEventsFromAPI() {
         const data = await response.json();
         console.log("Loaded events from API:", data);
 
-        // Convert database format to frontend format, including the id
         return data.map(event => ({
             id: event.id,
             title: event.title,
@@ -374,7 +358,6 @@ async function deleteEventFromAPI(eventTitle) {
     }
 
     try {
-        // Find the event by title to get its ID
         const allEvents = await loadEventsFromAPI();
         const eventToDelete = allEvents.find(e => e.title === eventTitle);
 
@@ -383,10 +366,8 @@ async function deleteEventFromAPI(eventTitle) {
             return false;
         }
 
-        // Delete the event using its ID
         const success = await deleteEvent(eventToDelete.id);
         if (success) {
-            // Reload events from API instead of filtering
             events = await loadEventsFromAPI();
             currentEventId = null;
             updateAll();
@@ -436,94 +417,6 @@ document.querySelector('.logout').onclick = function (e) {
         window.location.href = 'login.html';
     }
 };
-
-/*function updateNotificationBadge() {
-    const badge = document.getElementById('notificationBadge');
-    unreadCount = notifications.filter(n => !n.read).length;
-    badge.textContent = unreadCount > 0 ? unreadCount : '';
-    badge.style.display = unreadCount > 0 ? 'inline-flex' : 'none';
-}*/
-
-/*function addNotification(title, date, eventDate) {
-    const notification = {
-        id: Date.now(),
-        title: title,
-        date: date,
-        eventDate: eventDate,
-        read: false,
-        createdAt: new Date().toISOString()
-    };
-
-    notifications.unshift(notification);
-    localStorage.setItem('calendar_notifications', JSON.stringify(notifications));
-    updateNotificationBadge();
-    renderNotifications();
-}*/
-
-/*function renderNotifications() {
-    const notificationList = document.getElementById('notificationList');
-    notificationList.innerHTML = '';
-
-    if (notifications.length === 0) {
-        notificationList.innerHTML = '<div class="notification-empty">Немає сповіщень</div>';
-        return;
-    }
-
-    notifications.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-
-    notifications.forEach(notification => {
-        const notificationItem = document.createElement('div');
-        notificationItem.className = `notification-item ${notification.read ? '' : 'unread'}`;
-
-        const eventDate = new Date(notification.eventDate);
-        const formattedDate = `${eventDate.getDate()} ${monthNames[eventDate.getMonth()].slice(0, 3)} ${eventDate.getFullYear()}`;
-
-        notificationItem.innerHTML = `
-            <div class="notification-content">
-                <div class="notification-text">
-                    ${!notification.read ? '<div class="notification-dot"></div>' : ''}
-                    <div>
-                        <div class="notification-event-title">${notification.title}</div>
-                        <div class="notification-event-date">${formattedDate}</div>
-                        <div class="notification-time">Нагадування про подію</div>
-                    </div>
-                </div>
-            </div>
-        `;
-
-        notificationItem.onclick = () => {
-            notification.read = true;
-            localStorage.setItem('calendar_notifications', JSON.stringify(notifications));
-            updateNotificationBadge();
-            renderNotifications();
-        };
-
-        notificationList.appendChild(notificationItem);
-    });
-}
-*/
-/*document.getElementById('notificationBtn').onclick = function (e) {
-    e.stopPropagation();
-    const modal = document.getElementById('notificationModal');
-    modal.style.display = modal.style.display === 'block' ? 'none' : 'block';
-
-    if (modal.style.display === 'block') {
-        notifications.forEach(n => n.read = true);
-        localStorage.setItem('calendar_notifications', JSON.stringify(notifications));
-        updateNotificationBadge();
-        renderNotifications();
-    }
-};
-
-document.getElementById('clearNotifications').onclick = function () {
-    if (confirm('Очистити всі сповіщення?')) {
-        notifications = [];
-        localStorage.setItem('calendar_notifications', JSON.stringify(notifications));
-        updateNotificationBadge();
-        renderNotifications();
-    }
-};*/
-
 document.getElementById('prevMonth').onclick = () => { curMonth--; if (curMonth < 0) { curMonth = 11; curYear--; } updateAll(); };
 document.getElementById('nextMonth').onclick = () => { curMonth++; if (curMonth > 11) { curMonth = 0; curYear++; } updateAll(); };
 
@@ -591,8 +484,3 @@ document.getElementById('searchInput').onkeyup = function (e) {
 };
 
 updateNotificationBadge();
-//renderNotifications();
-
-/*if (Notification.permission !== 'granted' && Notification.permission !== 'denied') {
-    Notification.requestPermission();
-}*/
