@@ -5,14 +5,16 @@ const cors = require('cors');
 require('dotenv').config();
 
 const app = express();
-app.use(cors()); // Дозволяємо запити з будь-яких портів
-app.use(express.json()); // Щоб сервер розумів JSON
+app.use(cors()); 
+app.use(express.json()); 
 
 const db = mysql.createPool({
-    host: 'localhost',
-    user: 'root',
-    password: 'vnik34rvdkgbd', 
-    database: 'smart_calendar'
+    host: process.env.DB_HOST || 'localhost',
+    user: process.env.DB_USER || 'root',
+    password: process.env.DB_PASSWORD || 'vnik34rvdkgbd', 
+    database: process.env.DB_NAME || 'smart_calendar',
+    port: process.env.DB_PORT || 3306,
+    ssl: process.env.DB_HOST ? { rejectUnauthorized: false } : null
 });
 
 db.getConnection((err, conn) => {
@@ -42,7 +44,6 @@ app.post('/api/register', async (req, res) => {
     }
 });
 
-// 3. МАРШРУТ ВХОДУ (LOGIN)
 app.post('/api/login', (req, res) => {
     const { email, password } = req.body;
 
@@ -66,8 +67,6 @@ app.post('/api/login', (req, res) => {
         });
     });
 });
-
-// 4. МАРШРУТ СТВОРЕННЯ ПОДІЇ
 app.post('/api/events', (req, res) => {
     const { user_id, title, description, event_date, category } = req.body;
     const sql = "INSERT INTO events (user_id, title, description, event_date, category) VALUES (?, ?, ?, ?, ?)";
@@ -77,7 +76,6 @@ app.post('/api/events', (req, res) => {
     });
 });
 
-// 5. МАРШРУТ ОТРИМАННЯ ПОДІЙ КОРИСТУВАЧА
 app.get('/api/events/:userId', (req, res) => {
     const sql = "SELECT id, title, description, DATE_FORMAT(event_date, '%Y-%m-%d') as event_date, category FROM events WHERE user_id = ?";
     db.query(sql, [req.params.userId], (err, results) => {
@@ -87,7 +85,6 @@ app.get('/api/events/:userId', (req, res) => {
     });
 });
 
-// 6. МАРШРУТ ОНОВЛЕННЯ ПОДІЇ
 app.put('/api/events/:id', (req, res) => {
     const { title, event_date, category } = req.body;
     const sql = "UPDATE events SET title = ?, event_date = ?, category = ? WHERE id = ?";
@@ -96,8 +93,6 @@ app.put('/api/events/:id', (req, res) => {
         res.json({ message: "Updated" });
     });
 });
-
-// 7. МАРШРУТ ВИДАЛЕННЯ ПОДІЇ
 app.delete('/api/events/:id', (req, res) => {
     const eventId = req.params.id;
     const sql = "DELETE FROM events WHERE id = ?";
