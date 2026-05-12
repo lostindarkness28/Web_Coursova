@@ -16,11 +16,11 @@ app.use(cors());
 app.use(express.json());
 
 const db = mysql.createPool({
-    host: process.env.DB_HOST,
+    host: 'mysql-16ae09ad-vasetskiyn-c285.i.aivencloud.com', 
     user: process.env.DB_USER,
     password: process.env.DB_PASSWORD,
     database: process.env.DB_NAME,
-    port: process.env.DB_PORT,
+    port: 12158, 
     ssl: {
         rejectUnauthorized: false
     },
